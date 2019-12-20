@@ -26,19 +26,19 @@ public class AddressBookController {
     private ActionListener actionListener;
     private ActionListener choiceListener;
     private ContactDialog dialog;
-    private final AddressBookDAOImplementation daoimplement;
+    private AddressBookDAOImplementation daoimplement;
     private NameListPanel nlp;
     private DetailViewPanel detailPanel;
     private DetailViewPanel contactDetailsPanel;
-   
+    
     public AddressBookController(){
         daoimplement = new AddressBookDAOImplementation();
         view =new AddressBookMainGUI("View");  
     }
      
-   
+    
      
-   
+    
      
     public void control(){
         loadPersons();
@@ -57,17 +57,24 @@ public class AddressBookController {
                     openEdit();
                 else if(e.getSource() == view.getDelete())
                     openDelete();
+                else if(e.getSource() == view.getsearch())
+                    
+                    openSearch();
             }
+
+            
         };
-       
+        
         view.getAdd().addActionListener(actionListener);
         view.getDelete().addActionListener(actionListener);
         view.getEdit().addActionListener(actionListener);
-     
+        view.getsearch().addActionListener(actionListener);
+      
+      
     }
-   
-   
-    private void openAdd(){  
+    
+    
+    private void openAdd(){   
        view.getMainGUIFrame().setVisible(false);
          dialog =  new ContactDialog("New Entries");    
          dialog.getPanel().setLocation(500,500);
@@ -81,14 +88,14 @@ public class AddressBookController {
             Boolean flag = false;
             String name = contactDetailsPanel.getNameField().getText();
             String mobile = contactDetailsPanel.getMobileField().getText();
-            String email = contactDetailsPanel.geteMailField().getText();
+            String email = contactDetailsPanel.geteMailField().getText(); 
             String address = contactDetailsPanel.getAddressField().getText();
-            String pincode = contactDetailsPanel.getpincodeField().getText();
+           
             flag = validate();
             if(flag)
             {    
              Person person = new Person();
-             person.setData(name,mobile,email,address,pincode);
+             person.setData(name,mobile,email,address);
              daoimplement.addPerson(person);
              dialog.getFrame().dispose();
              view.getMainGUIFrame().setVisible(true);
@@ -100,9 +107,9 @@ public class AddressBookController {
                 {
                     dialog.getFrame().dispose();
                     view.getMainGUIFrame().setVisible(true);
-                }  
+                }   
             }
-           
+            
         };
          dialog.getSubmitButton().addActionListener(choiceListener);
          dialog.getcancelButton().addActionListener(choiceListener);  
@@ -123,7 +130,7 @@ public class AddressBookController {
              {
               daoimplement.addPerson(person);
               dialog.getFrame().dispose();
-             
+              
              }
               else
              {
@@ -135,9 +142,9 @@ public class AddressBookController {
         }
      
    */
-   
-   
-   
+    
+    
+    
      /**
      *validates that mobile field and name are not empty
      * @return
@@ -146,15 +153,17 @@ public class AddressBookController {
         boolean valid = false;
         String name = contactDetailsPanel.getNameField().getText();
         String mobile = contactDetailsPanel.getMobileField().getText();
-        String email = contactDetailsPanel.geteMailField().getText();
-        String address = contactDetailsPanel.getAddressField().getText();
-        String pincode = contactDetailsPanel.getpincodeField().getText();
-        if (name==null||name.equals("")||(mobile==null||mobile.equals(""))||email==null||email.equals(""))
+        if (name==null||name.equals("")||(mobile==null||mobile.equals("")))
             JOptionPane.showMessageDialog(new JFrame(), "Fields Marked as * are Mandatory","Inane error", JOptionPane.ERROR_MESSAGE);
-        else
+        else 
             valid = true;
         return valid;
                
+    }
+    private void openSearch()
+    {
+         JOptionPane.showMessageDialog(new JFrame(), "Fields Marked as * are Mandatory","Inane error", JOptionPane.ERROR_MESSAGE);
+
     }
      
     private void openEdit(){
@@ -164,7 +173,7 @@ public class AddressBookController {
         dialog.getPanel().setMobile(detailPanel.getMobileField().getText());
         dialog.getPanel().seteMail(detailPanel.geteMailField().getText());
         dialog.getPanel().setAddress(detailPanel.getAddressField().getText());
-        dialog.getPanel().setpincode(detailPanel.getpincodeField().getText());
+       
         view.getMainGUIFrame().setVisible(false);
         choiceListener = new ActionListener() {
             @Override
@@ -176,14 +185,12 @@ public class AddressBookController {
                 String name = contactDetailsPanel.getNameField().getText();
                 String mobile = contactDetailsPanel.getMobileField().getText();
                 String email = contactDetailsPanel.geteMailField().getText(); 
-                String address = contactDetailsPanel.getAddressField().getText(); 
-                String pincode = contactDetailsPanel.getpincodeField().getText(); 
+                String address = contactDetailsPanel.getAddressField().getText();
                 flag = validate();
                 if(flag)
                 {    
                 Person person = new Person();
-                   
-                person.setData(name,mobile,email,address,pincode);
+                person.setData(name,mobile,email,address);
                 daoimplement.updatePerson(person,originalName);
                 dialog.getFrame().dispose();
                 view.getMainGUIFrame().setVisible(true);
@@ -194,27 +201,27 @@ public class AddressBookController {
                 {
                     dialog.getFrame().dispose();
                      view.getMainGUIFrame().setVisible(true);
-                }  
+                }   
             }
         };
          dialog.getSubmitButton().addActionListener(choiceListener);
          dialog.getcancelButton().addActionListener(choiceListener);
     }
-       
+        
     private void openDelete(){
         final String name=detailPanel.getNameField().getText();
         int reply = JOptionPane.showConfirmDialog(
                 null,
-                " Are You Sure to remove "+name +" permanently?",
+                " Are You Sure to remove "+name +" permanently?", 
                 "Confirm Deletion", JOptionPane.YES_NO_OPTION);
-       
+        
         if (reply == JOptionPane.YES_OPTION) {
           daoimplement.removePerson(name);
           loadPersons();
         }
     }
-   
-    public void loadPersons()      
+    
+    public void loadPersons()       
     {
         nlp = view.getNameListPanel();
         daoimplement.getAllNames(nlp);
@@ -237,7 +244,7 @@ public class AddressBookController {
                          source.setSelectedIndex(0);
                     String select = source.getSelectedValue().toString();
                     getSelectedPerson(select);
-                   
+                    
                     }
                     }
                     });  
@@ -245,16 +252,15 @@ public class AddressBookController {
          detailPanel.getMobileField().setEditable(false);
          detailPanel.geteMailField().setEditable(false);
          detailPanel.getAddressField().setEditable(false);
-          detailPanel.getpincodeField().setEditable(false);
+        
         }
     }  //loadPersons ends
-   
+    
     public void getSelectedPerson(String selectedName)
     {
         detailPanel=view.getDetailViewPanel();
         daoimplement.getSelectedName(detailPanel,selectedName);
      
     }
- 
+  
 }
-

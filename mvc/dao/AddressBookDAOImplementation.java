@@ -1,6 +1,3 @@
-
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -29,29 +26,29 @@ public class AddressBookDAOImplementation implements AddressBookDAO{
     /*public AddressBookDAOImplementation ()
     {
         conn= DBConnection.getInstance().getConnect();
-       
+        
     }*/
-   
+    
     @Override
-    public void addPerson(Person person)
-    {  
+    public void addPerson(Person person) 
+    {   
        try
        {
           conn = DBConnection.getInstance().getConnect();
            st = conn.createStatement();
            String qry;
-           qry = "insert into AddressBook values ('"+person.getName()+"','"+person.getMob()+"','"+person.getEmail()+"','"+person.getaddress()+"','"+person.getpincode()+"')";
+           qry = "insert into AddressBook values ('"+person.getName()+"','"+person.getMob()+"','"+person.getEmail()+"','"+person.getAddress()+"')";
            st.executeUpdate(qry);
            conn.close();
         }
-           
+            
        catch(SQLException e)
        {
            System.out.println(e);
        }
            
     }
-   
+    
     @Override
      public void removePerson(String name)
      {
@@ -68,7 +65,7 @@ public class AddressBookDAOImplementation implements AddressBookDAO{
              System.out.println(e);
          }
      }
-   
+    
     @Override
      public void updatePerson(Person person,String name)
      {
@@ -76,24 +73,24 @@ public class AddressBookDAOImplementation implements AddressBookDAO{
        {
            conn = DBConnection.getInstance().getConnect();
            st = conn.createStatement();
-            String qry="update AddressBook set name='"+person.getName()+"',mob='"+person.getMob()+"',email='"+person.getEmail()+"',address='"+person.getAddress()+"' ,pincode='"+person.getpincode()+"'where name='"+name+"'";
+            String qry="update AddressBook set name='"+person.getName()+"',mob='"+person.getMob()+"',email='"+person.getEmail()+"',address='"+person.getAddress()+"' where name='"+name+"'";
            st.executeUpdate(qry);
            conn.close();
         }
-           
+            
        catch(SQLException e)
        {
-          System.out.println(e);
+          System.out.println(e); 
        }
      }
-   
+    
     /**
      *to display all names to select
      * @param namePanel
-     * @return
+     * @return 
      */
     @Override
-    public DefaultListModel getAllNames(NameListPanel namePanel)
+    public DefaultListModel getAllNames(NameListPanel namePanel) 
     {
              DefaultListModel<String> dlm = new DefaultListModel<>();
             try {
@@ -118,8 +115,8 @@ public class AddressBookDAOImplementation implements AddressBookDAO{
            
         return dlm;
     }
-   
-   
+    
+    
     @Override
     public void getSelectedName(DetailViewPanel detailPanel,String selectedName)
     {
@@ -135,10 +132,7 @@ public class AddressBookDAOImplementation implements AddressBookDAO{
              detailPanel.seteMail(rs.getString("email"));
              detailPanel.setMobile(rs.getString("mob"));
              detailPanel.setAddress(rs.getString("address"));
-               detailPanel.setpincode(rs.getString("pincode"));
              
-             
-            
            }
             conn.close();
         }
@@ -147,5 +141,5 @@ public class AddressBookDAOImplementation implements AddressBookDAO{
                    }
     }
            
-   
+    
 }

@@ -13,22 +13,22 @@ public class Person {
     private String mob;
     private String email;
     private String address;
-     private String pincode;
-   
-   
-   
+  
+    
+    
+    
    /* public User(){
         x=0;
     }
-   
+    
     public User(int x){
         this.x=x;
     }
-   
+    
     public void incX(){
         x++;
     }
-   
+    
     public void decX(){
         x--;
     }
@@ -36,39 +36,31 @@ public class Person {
         return x;
     }*/
     public String getName(){
-        return this.name;
+        return this.name; 
    }
-   
+    
     public String getMob(){
-        return this.mob;
+        return this.mob; 
    }
-   
+    
     public String getEmail(){
-        return this.email;
+        return this.email; 
    }
      public String getAddress(){
-        return this.address;
+        return this.address; 
    }
-      public String getpincode(){
-        return this.pincode;
-   }
-   
-    public void setData(String name, String mob,String email , String address){
+  
+    
+    public void setData(String name, String mob,String email,String address){
         this.name = name;
         this.mob = mob;
         this.email = email;
-        this.address = address ;
-        this.pincode = pincode ;
+        this.address = address;
         
     }
 
-    public String getaddress() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
+    
+ 
 
-    public void setData(String name, String mobile, String email, String address, String pincode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-   
- }
-
+}
